@@ -1,7 +1,7 @@
 import modules.Ant as Ant
 
-def find(nbants, map):
 
+def find(nbants, map, show=True):
     """
     Fonction de recherche de solution à modifier pour trouver le meilleur chemin
     :param nbants: nombre de fourmis a tester
@@ -10,4 +10,4 @@ def find(nbants, map):
     """
 
     myant = Ant.Ant()
-    print(myant.find_path(map))
+    print(myant.find_path(map, show))

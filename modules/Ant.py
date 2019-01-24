@@ -21,13 +21,11 @@ class Ant:
 
     """
     path_ = []  # le chemin emprunte par la fourmi
-    memory = []  #la memoire de la fourmi
-    count = 0   # le nombre de deplacement de la fourmi
-    xant_ = 0  #position en x de la fourmi
-    yant_ = 0  #position en y de la fourmi
+    memory = []  # la memoire de la fourmi
+    count = 0  # le nombre de deplacement de la fourmi
+    xant_ = 0  # position en x de la fourmi
+    yant_ = 0  # position en y de la fourmi
     location_ = ''  # La valeur de la case de la case
-
-
 
     def spawn(self, map):
         self.yant_, self.xant_ = map.get_start()
@@ -35,7 +33,8 @@ class Ant:
         map.modficell(self.yant_, self.xant_, "A")
 
     def moveto(self, map, posy, posx):
-        if map.get_cellat(posy, posx) != "w" and (((posy - self.yant_) + (posx - self.xant_) == 1) or ((posy - self.yant_) + (posx - self.xant_) == -1)):
+        if map.get_cellat(posy, posx) != "w" and (
+                ((posy - self.yant_) + (posx - self.xant_) == 1) or ((posy - self.yant_) + (posx - self.xant_) == -1)):
             map.modficell(self.yant_, self.xant_, self.location_)
             self.yant_, self.xant_ = posy, posx
             self.location_ = map.get_cellat(self.yant_, self.xant_)
@@ -100,7 +99,7 @@ class Ant:
         choice = random.randint(0, len(possibilities) - 1)
         return possibilities[choice]
 
-    def find_path(self, map):
+    def find_path(self, map, show=True):
         exit = map.get_exit()
         self.spawn(map)
         while self.yant_ != exit[0] or self.xant_ != exit[1]:
@@ -108,6 +107,7 @@ class Ant:
             posx = choice[1]
             posy = choice[0]
             self.moveto(map, posy, posx)
-            map.show()
+            if show:
+                map.show()
             self.count += 1
         return self.count
