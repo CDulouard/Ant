@@ -10,7 +10,11 @@ def find(nbants, map, show=True):
     """
     avgmove = 0
     for i in range(nbants):
+        print("ant : {}".format(i + 1))
         myant = Ant.Ant()
         avgmove += myant.find_path(map, show)
+
+    myant = Ant.Ant()
+    myant.gofast(map)
 
     return avgmove / nbants

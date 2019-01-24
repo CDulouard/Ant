@@ -110,3 +110,13 @@ class Map:
 
     def get_exit(self):
         return self.exit_[0], self.exit_[1]
+
+    def set_weight(self, y, x, value1=-1, value2=-1):
+
+        if value1 >= 0:
+            self.weights_[y][x][0] = value1
+        if value2 >= 0:
+            self.weights_[y][x][1] = value2
+
+    def get_weight(self, y, x):
+        return self.weights_[y][x]

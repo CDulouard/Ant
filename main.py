@@ -4,8 +4,9 @@ import sys
 
 
 def main(args):
-    map = Map.Map("maps/Map_1.txt")
-    print(pf.find(1, map, False))
+    map = Map.Map("map")
+    print(pf.find(10000, map, False))
+    map.test()
 
 
 if __name__ == "__main__":
