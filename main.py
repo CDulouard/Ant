@@ -4,8 +4,8 @@ import sys
 
 
 def main(args):
-    map = Map.Map("maps/map2")
-    print(pf.find(10000, map, False))
+    map = Map.Map("maps/MAP_ULTIMATE")
+    print(pf.find(50, map, False, 1000000))
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import modules.Ant as Ant
 
 
-def find(nbants, map, show=True):
+def find(nbants, map, show=True, TTL=100000):
     """
     Fonction de recherche de solution à modifier pour trouver le meilleur chemin
     :param nbants: nombre de fourmis a tester
@@ -13,7 +13,7 @@ def find(nbants, map, show=True):
     for i in range(nbants):
 
         myant = Ant.Ant()
-        count = myant.find_path_memory(map, show)
+        count = myant.find_path_memory(map, show, TTL)
 
         if count < bestmove:
             bestmove = count

@@ -174,9 +174,28 @@ class Ant:
 
         return self.count_
 
-    def find_path_memory(self, map, show=True):
+    def avoid_loop(self, path):
+
+        base_len = len(path)
+        change = True
+
+        while change:
+            change = False
+            for i in range(len(path)):
+                for j in range(len(path) - i - 1):
+                    if path[i] == path[i + j + 1]:
+                        path = path[:i] + path[j + i + 1:]
+                        change = True
+                        break
+
+        deleted_elem = base_len - len(path)
+
+        return path, deleted_elem
+
+    def find_path_memory(self, map, show=True, TTL=1000000):
         exit = map.get_exit()
         self.spawn(map)
+        find = True
 
         while self.yant_ != exit[0] or self.xant_ != exit[1]:  # Tant qu on est pas sorti
 
@@ -200,11 +219,16 @@ class Ant:
 
             self.count_ += 1
 
-            if 1 / self.count_ < Ant.score_:  # si le chemin est plus long que le meilleur chemin on arrete de chercher
+            if 1 / self.count_ < 1 / TTL:  # si le chemin est plus long que le meilleur chemin on arrete de chercher
+                find = False
                 break
 
-        if 1 / self.count_ > Ant.score_:
-            Ant.score_ = 1 / self.count_
-            Ant.memory_ = self.path_
+        if find:
+            self.path_, count = self.avoid_loop(self.path_)
+            self.count_ -= count
+
+            if 1 / self.count_ > Ant.score_:
+                Ant.score_ = 1 / self.count_
+                Ant.memory_ = self.path_
 
         return self.count_
