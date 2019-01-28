@@ -27,6 +27,7 @@ class Ant:
     xant_ = 0  # position en x de la fourmi
     yant_ = 0  # position en y de la fourmi
     location_ = ''  # La valeur de la case de la case
+    score_ = 0
 
     def __init__(self):
         self.memory_ = []
@@ -104,7 +105,7 @@ class Ant:
     def ia(self, possibilities):
         choice = random.randint(0, len(possibilities) - 1)
 
-        self.path_ += [possibilities[choice]]
+
 
         return possibilities[choice]
 
@@ -112,7 +113,7 @@ class Ant:
         for i in range(len(self.path_)):
             find = False
             for j in range(len(self.memory_)):
-                if(self.path_[-i] == self.memory_[j]):
+                if (self.path_[-i] == self.memory_[j]):
                     find = True
             if find == False:
                 self.memory_ += [self.path_[-i]]
@@ -129,17 +130,17 @@ class Ant:
 
                 map.set_weight(self.path_[-i][0], self.path_[-i][1], val1, val2)
 
-
-
-
-
     def find_path(self, map, show=True):
         exit = map.get_exit()
         self.spawn(map)
         while self.yant_ != exit[0] or self.xant_ != exit[1]:
-            choice = self.ia(self.scan(map))
+            possibilities = self.scan(map)
+            choice = self.ia(possibilities)
             posx = choice[1]
             posy = choice[0]
+
+            self.path_ += [choice]
+
             self.moveto(map, posy, posx)
             if show:
                 map.show()
@@ -170,5 +171,38 @@ class Ant:
             self.count_ += 1
 
         self.backhome(map)
+
+        return self.count_
+
+    def find_path_memory(self, map, show=True):
+        exit = map.get_exit()
+        self.spawn(map)
+        while self.yant_ != exit[0] or self.xant_ != exit[1]:  #Tant qu on est pas sorti
+
+            possibilities = self.scan(map)
+
+            for i in range(len(Ant.memory_)):
+                if self.yant_ == Ant.memory_[-i][0] and self.xant_ == Ant.memory_[-i][1]:
+                    possibilities += [[Ant.memory_[-i+1][0],Ant.memory_[-i+1][1]]]
+                    break
+
+            choice = self.ia(possibilities)
+
+
+
+            self.path_ += [choice]
+
+            posx = choice[1]
+            posy = choice[0]
+            self.moveto(map, posy, posx)
+            if show:
+                map.show()
+            self.count_ += 1
+
+        self.backhome(map)
+
+        if 1/self.count_ > Ant.score_ :
+            Ant.score_ = 1/self.count_
+            Ant.memory_ = self.path_
 
         return self.count_

@@ -9,12 +9,19 @@ def find(nbants, map, show=True):
     :return: Nombre de mouvements moyens
     """
     avgmove = 0
+    bestmove = 100000000000000
     for i in range(nbants):
-        print("ant : {}".format(i + 1))
-        myant = Ant.Ant()
-        avgmove += myant.find_path(map, show)
 
-    myant = Ant.Ant()
-    myant.gofast(map)
+        myant = Ant.Ant()
+        count = myant.find_path_memory(map, show)
+
+        if count < bestmove:
+            bestmove = count
+
+        avgmove += count
+        print("ant : {} : ".format(i + 1), count)
+
+    print("Meilleur chemin trouve : ", Ant.Ant.memory_)
+    print("Longueur meilleur chemin : {}".format(bestmove))
 
     return avgmove / nbants
