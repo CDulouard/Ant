@@ -177,14 +177,15 @@ class Ant:
     def find_path_memory(self, map, show=True):
         exit = map.get_exit()
         self.spawn(map)
+
         while self.yant_ != exit[0] or self.xant_ != exit[1]:  # Tant qu on est pas sorti
 
             possibilities = self.scan(map)
 
-            for i in range(len(Ant.memory_)):
+            for i in range(len(Ant.memory_)):  # On regarde dans la memoire globale si on est deja passe par la
                 if self.yant_ == Ant.memory_[-i][0] and self.xant_ == Ant.memory_[-i][1]:
                     possibilities += [[Ant.memory_[-i + 1][0], Ant.memory_[-i + 1][1]]]
-                    break
+                    break  # si oui on augmente la probabilite d aller sur la case suivante de la derniere fois ou on est passe
 
             choice = self.ia(possibilities)
 
@@ -193,11 +194,14 @@ class Ant:
             posx = choice[1]
             posy = choice[0]
             self.moveto(map, posy, posx)
+
             if show:
                 map.show()
+
             self.count_ += 1
 
-        self.backhome(map)
+            if 1 / self.count_ < Ant.score_:  # si le chemin est plus long que le meilleur chemin on arrete de chercher
+                break
 
         if 1 / self.count_ > Ant.score_:
             Ant.score_ = 1 / self.count_
