@@ -14,11 +14,13 @@ class Ant:
     ia : retourne la position ou aller
     find_path : deplace la fourmi jusqu a trouver la sortie et retourne le nombre de deplacement
     backhome : permet a la fourmi de modifier les parametres de poids sur son chemin
+    find_path_memory : cherche le meilleur chemin et s'aide du meilleur chemin trouver jusqu'a la pour
+                    diminuer la part d'aleatoire
 
 
     Consigne :
 
-    Modifier ia (eventuellement find_path) pour obtimiser le deplacement de la fourmi
+    Modifier ia (eventuellement les find_path) pour optimiser le deplacement de la fourmi
 
     """
     path_ = []  # le chemin emprunte par la fourmi
@@ -105,8 +107,6 @@ class Ant:
     def ia(self, possibilities):
         choice = random.randint(0, len(possibilities) - 1)
 
-
-
         return possibilities[choice]
 
     def backhome(self, map):
@@ -177,18 +177,16 @@ class Ant:
     def find_path_memory(self, map, show=True):
         exit = map.get_exit()
         self.spawn(map)
-        while self.yant_ != exit[0] or self.xant_ != exit[1]:  #Tant qu on est pas sorti
+        while self.yant_ != exit[0] or self.xant_ != exit[1]:  # Tant qu on est pas sorti
 
             possibilities = self.scan(map)
 
             for i in range(len(Ant.memory_)):
                 if self.yant_ == Ant.memory_[-i][0] and self.xant_ == Ant.memory_[-i][1]:
-                    possibilities += [[Ant.memory_[-i+1][0],Ant.memory_[-i+1][1]]]
+                    possibilities += [[Ant.memory_[-i + 1][0], Ant.memory_[-i + 1][1]]]
                     break
 
             choice = self.ia(possibilities)
-
-
 
             self.path_ += [choice]
 
@@ -201,8 +199,8 @@ class Ant:
 
         self.backhome(map)
 
-        if 1/self.count_ > Ant.score_ :
-            Ant.score_ = 1/self.count_
+        if 1 / self.count_ > Ant.score_:
+            Ant.score_ = 1 / self.count_
             Ant.memory_ = self.path_
 
         return self.count_
