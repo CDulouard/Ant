@@ -120,3 +120,6 @@ class Map:
 
     def get_weight(self, y, x):
         return self.weights_[y][x]
+
+    def get_map(self):
+        return self.map_

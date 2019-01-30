@@ -21,6 +21,8 @@ def find(nbants, map, show=True, TTL=100000):
         avgmove += count
         print("ant : {} : ".format(i + 1), count)
 
+    myant.show_best_path(map)
+
     print("Meilleur chemin trouve : ", Ant.Ant.memory_)
     print("Longueur meilleur chemin : {}".format(bestmove))
 
