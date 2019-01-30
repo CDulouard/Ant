@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPainter, QColor, QFont
 from PyQt5.QtCore import Qt, QRect
 import modules.Map as map
 
+
 class WindowContent(QWidget):
     def __init__(self, map):
         super().__init__()
@@ -36,4 +37,6 @@ class WindowContent(QWidget):
                 if content[i][j] == "A":
                     qp.setBrush(QColor(0, 0, 0))
                     qp.drawRect((j * 20) + 50, (i * 20) + 50, 20, 20)
-
+                if content[i][j] == "0":
+                    qp.setBrush(QColor(150, 100, 0, 70))
+                    qp.drawRect((j * 20) + 50, (i * 20) + 50, 20, 20)

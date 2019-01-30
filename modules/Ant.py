@@ -192,8 +192,6 @@ class Ant:
 
         return path, deleted_elem
 
-
-
     def find_path_memory(self, map, show=True, TTL=1000000):
         exit = map.get_exit()
         self.spawn(map)
@@ -203,12 +201,9 @@ class Ant:
 
             possibilities = self.scan(map)
 
-
             for i in range(len(Ant.memory_)):  # On regarde dans la memoire globale si on est deja passe par la
                 if self.yant_ == Ant.memory_[-i][0] and self.xant_ == Ant.memory_[-i][1]:
                     possibilities += [[Ant.memory_[-i + 1][0], Ant.memory_[-i + 1][1]]]
-
-
 
                     break  # si oui on augmente la probabilite d aller sur la case suivante de la derniere fois ou on est passe
 
@@ -239,11 +234,10 @@ class Ant:
 
         return self.count_
 
-    def show_best_path(self, map):
+    def show_best_path(map):
         if len(Ant.memory_) > 0:
             for i in Ant.memory_:
                 map.modficell(i[0], i[1], "x")
 
             i = Ant.memory_[-1]
             map.modficell(i[0], i[1], "O")
-            map.show()
